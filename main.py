@@ -14,7 +14,7 @@ description = """An recon bot."""
 intents = disnake.Intents.default()
 intents.members = True
 
-bot = commands.Bot(command_prefix="?", description=description, intents=intents)
+bot = commands.Bot(command_prefix="^", description=description, intents=intents)
 
 
 @bot.event
@@ -33,6 +33,9 @@ async def add(ctx, left: int, right: int):
     await ctx.send(left + right)
 
 
-
-
-bot.run(TOKEN)
+if __name__ == "__main__":
+    bot.remove_command("help")
+    for filename in os.listdir('./cogs'):
+        if filename.endswith('.py'):
+                bot.load_extension(f'cogs.{filename[:-3]}')
+    bot.run(TOKEN)
